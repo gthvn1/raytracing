@@ -6,6 +6,6 @@
 
 (package
  (name raytracing)
- (depends ocaml))
+ (depends ocaml ounit2))
 
 ; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
