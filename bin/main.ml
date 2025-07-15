@@ -34,8 +34,8 @@ let parse_args () =
 let () =
   parse_args ();
 
-  let width = 256 in
-  let height = 256 in
+  let width = 1024 in
+  let height = 512 in
   let pixels = Ppm.hello_world ~width ~height in
 
   match Ppm.generate ~width ~height ~pixels with

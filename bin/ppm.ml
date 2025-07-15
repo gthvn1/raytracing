@@ -5,16 +5,23 @@ type rgb = int * int * int
 let hello_world ~(width : int) ~(height : int) : rgb list =
   let width_float = float_of_int width in
   let height_float = float_of_int height in
-  List.init height (fun j ->
-      List.init width (fun i ->
-          let r = float_of_int i /. (width_float -. 1.0) in
-          let g = float_of_int j /. (height_float -. 1.0) in
-          let b = 0.0 in
+  let res =
+    List.init height (fun j ->
+        Printf.eprintf "\rScanlines remaining: %d" (height - j);
+        flush stderr;
+        List.init width (fun i ->
+            let r = float_of_int i /. (width_float -. 1.0) in
+            let g = float_of_int j /. (height_float -. 1.0) in
+            let b = 0.0 in
 
-          ( int_of_float (255.999 *. r),
-            int_of_float (255.999 *. g),
-            int_of_float (255.999 *. b) )))
-  |> List.flatten
+            ( int_of_float (255.999 *. r),
+              int_of_float (255.999 *. g),
+              int_of_float (255.999 *. b) )))
+    |> List.flatten
+  in
+  Printf.eprintf "\rDone                            \n";
+  flush stderr;
+  res
 
 let generate ~(width : int) ~(height : int) ~(pixels : rgb list) :
     (string, string) result =
