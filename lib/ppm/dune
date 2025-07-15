@@ -1,2 +1,3 @@
 (library
- (name ppm))
+ (name ppm)
+ (libraries vec3 color))

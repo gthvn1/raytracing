@@ -1,8 +1,7 @@
 (* PPM specification: https://netpbm.sourceforge.net/doc/ppm.html *)
-type rgb = int * int * int
 
 (* The hello world of Graphics *)
-let hello_world ~(width : int) ~(height : int) : rgb list =
+let hello_world ~(width : int) ~(height : int) : Color.t list =
   let width_float = float_of_int width in
   let height_float = float_of_int height in
   let res =
@@ -10,20 +9,17 @@ let hello_world ~(width : int) ~(height : int) : rgb list =
         Printf.eprintf "\rScanlines remaining: %d" (height - j);
         flush stderr;
         List.init width (fun i ->
-            let r = float_of_int i /. (width_float -. 1.0) in
-            let g = float_of_int j /. (height_float -. 1.0) in
-            let b = 0.0 in
-
-            ( int_of_float (255.999 *. r),
-              int_of_float (255.999 *. g),
-              int_of_float (255.999 *. b) )))
+            Color.make
+              ~r:(float_of_int i /. (width_float -. 1.0))
+              ~g:(float_of_int j /. (height_float -. 1.0))
+              ~b:0.0))
     |> List.flatten
   in
   Printf.eprintf "\rDone                            \n";
   flush stderr;
   res
 
-let generate ~(width : int) ~(height : int) ~(pixels : rgb list) :
+let generate ~(width : int) ~(height : int) ~(pixels : Color.t list) :
     (string, string) result =
   (* Ensure that we have enough pixels *)
   if width * height <> List.length pixels then
@@ -35,5 +31,5 @@ let generate ~(width : int) ~(height : int) ~(pixels : rgb list) :
     (* At most, to print rgb we will need 12 bytes (3 digits * 3 + 2 spaces + \n).
        So let's create our buffer with this value. *)
     let buffer = Buffer.create (width * height * 12) in
-    List.iter (fun (r, g, b) -> Printf.bprintf buffer "%d %d %d\n" r g b) pixels;
+    List.iter (fun c -> Printf.bprintf buffer "%s" (Color.write_color c)) pixels;
     Ok (hdr ^ Buffer.contents buffer)
