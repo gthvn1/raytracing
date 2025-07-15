@@ -1,13 +1,22 @@
 (* PPM specification: https://netpbm.sourceforge.net/doc/ppm.html *)
 type rgb = int * int * int
 
-(* generates a list of red pixels of size [sz] *)
-let red : rgb = (255, 0, 0)
-let green : rgb = (0, 255, 0)
-let red_pixels (sz : int) : rgb list = List.init sz (fun _ -> red)
-let green_pixels (sz : int) : rgb list = List.init sz (fun _ -> green)
+(* The hello world of Graphics *)
+let hello_world ~(width : int) ~(height : int) : rgb list =
+  let width_float = float_of_int width in
+  let height_float = float_of_int height in
+  List.init height (fun j ->
+      List.init width (fun i ->
+          let r = float_of_int i /. (width_float -. 1.0) in
+          let g = float_of_int j /. (height_float -. 1.0) in
+          let b = 0.0 in
 
-let create ~(width : int) ~(height : int) ~(pixels : rgb list) :
+          ( int_of_float (255.999 *. r),
+            int_of_float (255.999 *. g),
+            int_of_float (255.999 *. b) )))
+  |> List.flatten
+
+let generate ~(width : int) ~(height : int) ~(pixels : rgb list) :
     (string, string) result =
   (* Ensure that we have enough pixels *)
   if width * height <> List.length pixels then

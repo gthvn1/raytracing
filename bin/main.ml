@@ -32,13 +32,13 @@ let parse_args () =
       exit 1
 
 let () =
-  let width = 256 in
-  let height = 256 in
-  let pixels = Ppm.green_pixels (width * height) in
-
   parse_args ();
 
-  match Ppm.create ~width ~height ~pixels with
+  let width = 256 in
+  let height = 256 in
+  let pixels = Ppm.hello_world ~width ~height in
+
+  match Ppm.generate ~width ~height ~pixels with
   | Ok ppm_img ->
       let oc = open_out !ppm_file in
       output_string oc ppm_img;
