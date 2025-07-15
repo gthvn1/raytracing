@@ -1,0 +1,3 @@
+(library
+ (name ray)
+ (libraries vec3 color))

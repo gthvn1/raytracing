@@ -1,5 +1,7 @@
 type t = float * float * float
 
+let make ~(x : float) ~(y : float) ~(z : float) : t = (x, y, z)
+
 (* Accessors *)
 let x (x, _, _) = x
 let y (_, y, _) = y

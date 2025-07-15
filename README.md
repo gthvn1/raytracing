@@ -2,3 +2,8 @@
 
 - Starting [ray tracing in one weekend](https://raytracing.github.io/books/RayTracingInOneWeekend.html) to play with OCaml. Not sure how far we will go but it looks fun so we want to give it a try...
 - Run it: `dune exec raytracing`
+
+## Progress...
+
+- We are currently doing `4.1 The ray Class`
+  - Check if color is between 0.0 and 1.0 during creation

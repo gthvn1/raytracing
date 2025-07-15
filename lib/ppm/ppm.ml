@@ -1,18 +1,21 @@
 (* PPM specification: https://netpbm.sourceforge.net/doc/ppm.html *)
 
 (* The hello world of Graphics *)
-let hello_world ~(width : int) ~(height : int) : Color.t list =
-  let width_float = float_of_int width in
-  let height_float = float_of_int height in
-  let res =
+let render ~(width : int) ~(height : int) ~(pixel00 : Vec3.t)
+    ~(pixel_du : Vec3.t) ~(pixel_dv : Vec3.t) ~(camera_center : Vec3.t) :
+    Color.t list =
+  let res : Color.t list =
     List.init height (fun j ->
         Printf.eprintf "\rScanlines remaining: %d" (height - j);
         flush stderr;
         List.init width (fun i ->
-            Color.make
-              ~r:(float_of_int i /. (width_float -. 1.0))
-              ~g:(float_of_int j /. (height_float -. 1.0))
-              ~b:0.0))
+            let open Vec3 in
+            let pixel_ui = pixel_du ** float_of_int i in
+            let pixel_vj = pixel_dv ** float_of_int j in
+            let pixel_center = pixel_ui +++ pixel_vj in
+            let pixel_center = pixel_center +++ pixel00 in
+            let ray_direction = pixel_center +++ camera_center in
+            Ray.(make ~origin:camera_center ~direction:ray_direction |> color)))
     |> List.flatten
   in
   Printf.eprintf "\rDone                            \n";

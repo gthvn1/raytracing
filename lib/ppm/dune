@@ -1,3 +1,3 @@
 (library
  (name ppm)
- (libraries vec3 color))
+ (libraries vec3 color ray))
