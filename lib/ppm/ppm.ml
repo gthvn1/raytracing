@@ -16,11 +16,16 @@ let render (p : render_params) : Color.t list =
         flush stderr;
         List.init p.image_width (fun i ->
             let open Vec3 in
+            (* Get the pixel we are hitting:
+                - deplacement relative to delta_u
+                - deplacement relative to delta_v
+                - get the center of the pixel by adding deplacement
+                - the direction is the difference between pixel and the camera
+             *)
             let pixel_ui = p.pixel_du ** float_of_int i in
             let pixel_vj = p.pixel_dv ** float_of_int j in
-            let pixel_center = pixel_ui +++ pixel_vj in
-            let pixel_center = pixel_center +++ p.pixel00 in
-            let ray_direction = pixel_center +++ p.camera in
+            let pixel_center = p.pixel00 +++ (pixel_ui +++ pixel_vj) in
+            let ray_direction = pixel_center --- p.camera in
             Ray.(make ~origin:p.camera ~direction:ray_direction |> color)))
     |> List.flatten
   in
