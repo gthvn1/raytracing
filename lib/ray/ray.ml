@@ -15,6 +15,6 @@ let color (r : t) : Color.t =
   let open Vec3 in
   let unit_direction = r |> direction |> unit_vector in
   let a = (y unit_direction +. 1.0) *. 0.5 in
-  let c1 = Color.make ~r:1.0 ~g:1.0 ~b:1.0 in
-  let c2 = Color.make ~r:0.5 ~g:0.7 ~b:1.0 in
-  (c1 ** (1.0 -. a)) +++ (c2 ** a)
+  let start_color = Color.make ~r:1.0 ~g:1.0 ~b:1.0 in
+  let end_color = Color.make ~r:0.5 ~g:0.7 ~b:1.0 in
+  (start_color ** (1.0 -. a)) +++ (end_color ** a)
