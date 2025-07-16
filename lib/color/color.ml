@@ -1,6 +1,11 @@
 (* Let's reuse the vec3 for colors *)
 type t = Vec3.t
 
+(* Accessors *)
+let red (r, _, _) = r
+let green (_, g, _) = g
+let blue (_, _, b) = b
+
 let make ~(r : float) ~(g : float) ~(b : float) : t =
   (* Ensure that parameters are in the correct range *)
   let check name value =
@@ -18,7 +23,7 @@ let to_string (c : t) : string =
   let open Vec3 in
   (* Translate the [0, 1] component values to the byte range [0, 255]. *)
   let tr = c ** 255.999 in
-  let r = string_of_int (int_of_float (x tr)) in
-  let g = string_of_int (int_of_float (y tr)) in
-  let b = string_of_int (int_of_float (z tr)) in
+  let r = string_of_int (int_of_float (red tr)) in
+  let g = string_of_int (int_of_float (green tr)) in
+  let b = string_of_int (int_of_float (blue tr)) in
   r ^ " " ^ g ^ " " ^ b ^ "\n"
