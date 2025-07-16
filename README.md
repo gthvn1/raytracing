@@ -5,4 +5,4 @@
 
 ## Progress...
 
-- We are currently doing `4.1 The ray Class`
+- We are currently doing [4.1 The ray Class](https://raytracing.github.io/books/RayTracingInOneWeekend.html#rays,asimplecamera,andbackground/therayclass)
