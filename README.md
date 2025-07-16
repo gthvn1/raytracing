@@ -6,4 +6,3 @@
 ## Progress...
 
 - We are currently doing `4.1 The ray Class`
-  - Check if color is between 0.0 and 1.0 during creation
