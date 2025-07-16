@@ -82,16 +82,19 @@ let () =
   flush stdout;
 
   let pixels =
-    Ppm.render ~width:image_width ~height:image_height ~pixel00:pixel00_loc
-      ~pixel_du:pixel_delta_u ~pixel_dv:pixel_delta_v ~camera_center
+    {
+      image_width;
+      image_height;
+      pixel00 = pixel00_loc;
+      pixel_dv = pixel_delta_v;
+      pixel_du = pixel_delta_u;
+      camera = camera_center;
+    }
+    |> Ppm.render
   in
-  match Ppm.generate ~width:image_width ~height:image_height ~pixels with
-  | Ok ppm_img ->
-      let oc = open_out !ppm_file in
-      output_string oc ppm_img;
-      close_out oc;
-      let cmd = Filename.quote_command !viewer [ !ppm_file ] in
-      ignore (Sys.command cmd)
-  | Error e ->
-      prerr_endline ("Error: " ^ e);
-      exit 1
+  let ppm_img = Ppm.generate ~width:image_width ~height:image_height ~pixels in
+  let oc = open_out !ppm_file in
+  output_string oc ppm_img;
+  close_out oc;
+  let cmd = Filename.quote_command !viewer [ !ppm_file ] in
+  ignore (Sys.command cmd)

@@ -1,3 +1,4 @@
+(* Origin is a point but let's consider is a Vec3.t for now *)
 type t = { orig : Vec3.t; dir : Vec3.t }
 
 let make ~origin ~direction = { orig = origin; dir = direction }
